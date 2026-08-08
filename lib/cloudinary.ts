@@ -25,6 +25,7 @@ export type CloudinaryResource = {
 export async function listDocuments() {
   const result = await cloudinary.api.resources({
     type: "upload",
+    resource_type: "raw",
     prefix: "showcase/",
     context: true,
     tags: true,
@@ -36,6 +37,7 @@ export async function listDocuments() {
 
 export async function getDocument(publicId: string) {
   const result = await cloudinary.api.resource(publicId, {
+    resource_type: "raw",
     context: true,
     tags: true,
   });
