@@ -6,7 +6,7 @@ import { FileText, ArrowUpRight, Trash2, AlertCircle } from "lucide-react";
 import type { Assignment } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
-const tagColors = ["bg-cyan text-ink", "bg-accent text-ink", "bg-lime text-ink", "bg-pink text-ink", "bg-yellow text-ink"];
+const tagColors = ["bg-cyan text-black", "bg-accent text-black", "bg-lime text-black", "bg-pink text-black", "bg-yellow text-black"];
 
 export function GalleryCard({ assignment, index, onDelete }: { assignment: Assignment; index: number; onDelete?: (id: string) => void }) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -66,7 +66,7 @@ export function GalleryCard({ assignment, index, onDelete }: { assignment: Assig
           </div>
 
           <div className="absolute top-3 left-3">
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 brutal-tag font-mono text-xs font-bold uppercase bg-accent text-ink">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 brutal-tag font-mono text-xs font-bold uppercase bg-accent text-black">
               <FileText className="h-3 w-3" />
               Document
             </span>
@@ -75,22 +75,22 @@ export function GalleryCard({ assignment, index, onDelete }: { assignment: Assig
           <div className="absolute top-3 right-3 flex gap-2">
             <button
               onClick={handleDelete}
-              className="w-9 h-9 brutal-border bg-pink text-ink flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:scale-110"
+              className="w-9 h-9 brutal-border bg-pink text-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:scale-110"
               aria-label="Delete"
             >
               <Trash2 className="h-4 w-4" />
             </button>
-            <div className="w-9 h-9 brutal-border bg-paper dark:bg-ink-light text-ink dark:text-paper flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <div className="w-9 h-9 brutal-border bg-paper dark:bg-ink-light text-black dark:text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               <ArrowUpRight className="h-4 w-4" />
             </div>
           </div>
         </div>
 
         <div className="p-4 sm:p-5">
-          <h3 className="font-mono font-bold text-base leading-tight mb-1 group-hover:text-accent transition-colors uppercase text-ink dark:text-paper">
+          <h3 className="font-mono font-bold text-base leading-tight mb-1 group-hover:text-accent transition-colors uppercase text-black dark:text-white">
             {assignment.title}
           </h3>
-          <p className="font-mono text-sm text-ink/60 dark:text-paper/60 mb-3">
+          <p className="font-mono text-sm text-black/60 dark:text-white/60 mb-3">
             {assignment.studentName}
           </p>
           <div className="flex flex-wrap gap-1.5">
@@ -120,14 +120,14 @@ export function GalleryCard({ assignment, index, onDelete }: { assignment: Assig
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start gap-3 mb-4">
-              <div className="w-10 h-10 brutal-border bg-pink text-ink flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 brutal-border bg-pink text-black flex items-center justify-center shrink-0">
                 <AlertCircle className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="font-mono font-black text-base uppercase text-ink dark:text-paper mb-1">
+                <h3 className="font-mono font-black text-base uppercase text-black dark:text-white mb-1">
                   Delete Document?
                 </h3>
-                <p className="font-mono text-sm text-ink/60 dark:text-paper/60">
+                <p className="font-mono text-sm text-black/60 dark:text-white/60">
                   This will permanently delete <span className="font-bold">{assignment.title}</span> from the gallery. This cannot be undone.
                 </p>
               </div>
@@ -135,14 +135,14 @@ export function GalleryCard({ assignment, index, onDelete }: { assignment: Assig
             <div className="flex gap-3">
               <button
                 onClick={() => setShowConfirm(false)}
-                className="flex-1 px-4 py-3 brutal-btn bg-paper dark:bg-ink text-ink dark:text-paper font-mono text-sm font-bold uppercase hover:bg-paper-dark dark:hover:bg-ink-light"
+                className="flex-1 px-4 py-3 brutal-btn bg-paper dark:bg-ink text-black dark:text-white font-mono text-sm font-bold uppercase hover:bg-paper-dark dark:hover:bg-ink-light"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
                 disabled={deleting}
-                className="flex-1 px-4 py-3 brutal-btn bg-pink text-ink font-mono text-sm font-bold uppercase hover:bg-accent disabled:opacity-50"
+                className="flex-1 px-4 py-3 brutal-btn bg-pink text-black font-mono text-sm font-bold uppercase hover:bg-accent disabled:opacity-50"
               >
                 {deleting ? "Deleting..." : "Delete"}
               </button>

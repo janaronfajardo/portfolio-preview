@@ -92,7 +92,7 @@ export function Hero() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl w-full">
-        <div className="hero-eyebrow inline-flex items-center gap-2 mb-8 px-4 py-2 brutal-border bg-yellow text-ink rotate-neg-1deg">
+        <div className="hero-eyebrow inline-flex items-center gap-2 mb-8 px-4 py-2 brutal-border bg-yellow text-black rotate-neg-1deg">
           <Zap className="h-4 w-4" />
           <span className="font-mono text-xs font-bold uppercase tracking-wide">
             Class Assignment Showcase
@@ -108,14 +108,14 @@ export function Hero() {
           </span>
         </h1>
 
-        <p className="hero-description max-w-lg text-fluid-base text-ink/80 dark:text-paper/80 mb-10 leading-relaxed font-mono">
+        <p className="hero-description max-w-lg text-fluid-base text-black/80 dark:text-white/80 mb-10 leading-relaxed font-mono">
           Student work, on display. Read &apos;em, zoom &apos;em, judge &apos;em.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 mb-16">
           <Link
             href="/gallery"
-            className="hero-cta group inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent text-ink font-mono text-sm font-bold uppercase brutal-btn hover:bg-lime"
+            className="hero-cta group inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent text-black font-mono text-sm font-bold uppercase brutal-btn hover:bg-lime"
           >
             Explore Gallery
             <ArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
@@ -129,7 +129,7 @@ export function Hero() {
         </div>
 
         <div className="flex flex-wrap gap-4 sm:gap-6">
-          <div className="hero-stat brutal-card bg-lime text-ink px-5 py-3 rotate-neg-1deg">
+          <div className="hero-stat brutal-card bg-lime text-black px-5 py-3 rotate-neg-1deg">
             <div className="font-mono font-black text-fluid-xl">
               {stats.documents}
             </div>
@@ -137,7 +137,7 @@ export function Hero() {
               Documents
             </div>
           </div>
-          <div className="hero-stat brutal-card bg-cyan text-ink px-5 py-3 rotate-1deg">
+          <div className="hero-stat brutal-card bg-cyan text-black px-5 py-3 rotate-1deg">
             <div className="font-mono font-black text-fluid-xl">
               {stats.students}
             </div>

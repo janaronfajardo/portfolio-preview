@@ -20,7 +20,7 @@ export async function GET() {
         tags: r.tags || [],
         description: "",
       };
-    });
+    }).sort((a, b) => a.title.localeCompare(b.title));
 
     return NextResponse.json({ documents });
   } catch (err) {

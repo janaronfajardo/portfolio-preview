@@ -22,7 +22,7 @@
   }
 
   body {
-    @apply bg-paper text-ink;
+    @apply bg-paper text-black;
     font-feature-settings: "ss01", "ss02", "cv01", "cv03";
     background-image:
       linear-gradient(30deg, rgba(102, 73, 48, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(102, 73, 48, 0.02) 87.5%, rgba(102, 73, 48, 0.02)),
@@ -34,11 +34,11 @@
   }
 
   .dark body {
-    @apply bg-ink text-paper;
+    @apply bg-ink text-white;
   }
 
   ::selection {
-    @apply bg-accent text-ink;
+    @apply bg-accent text-black;
   }
 }
 

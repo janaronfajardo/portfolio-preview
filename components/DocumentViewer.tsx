@@ -126,40 +126,40 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
     <div ref={viewerRef} className="flex flex-col">
       <div className="flex items-center justify-between px-4 py-3 brutal-border border-b-[3px] bg-paper dark:bg-ink">
         <div className="min-w-0 flex-1">
-          <h2 className="font-mono font-bold text-sm sm:text-base truncate uppercase text-ink dark:text-paper">{title}</h2>
-          <p className="font-mono text-xs text-ink/50 dark:text-paper/50 truncate">{studentName}</p>
+          <h2 className="font-mono font-bold text-sm sm:text-base truncate uppercase text-black dark:text-white">{title}</h2>
+          <p className="font-mono text-xs text-black/50 dark:text-white/50 truncate">{studentName}</p>
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2 shrink-0">
           <button
             onClick={zoomOut}
             disabled={scale <= 0.5}
-            className="p-2 brutal-btn bg-paper dark:bg-ink text-ink dark:text-paper disabled:opacity-30"
+            className="p-2 brutal-btn bg-paper dark:bg-ink text-black dark:text-white disabled:opacity-30"
             aria-label="Zoom out"
           >
             <ZoomOut className="h-4 w-4" />
           </button>
-          <span className="font-mono text-xs font-bold w-12 text-center tabular-nums text-ink dark:text-paper">
+          <span className="font-mono text-xs font-bold w-12 text-center tabular-nums text-black dark:text-white">
             {Math.round(scale * 100)}%
           </span>
           <button
             onClick={zoomIn}
             disabled={scale >= 3}
-            className="p-2 brutal-btn bg-paper dark:bg-ink text-ink dark:text-paper disabled:opacity-30"
+            className="p-2 brutal-btn bg-paper dark:bg-ink text-black dark:text-white disabled:opacity-30"
             aria-label="Zoom in"
           >
             <ZoomIn className="h-4 w-4" />
           </button>
           <button
             onClick={toggleFullscreen}
-            className="p-2 brutal-btn bg-paper dark:bg-ink text-ink dark:text-paper hidden sm:block"
+            className="p-2 brutal-btn bg-paper dark:bg-ink text-black dark:text-white hidden sm:block"
             aria-label="Toggle fullscreen"
           >
             {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </button>
           <button
             onClick={handleDownload}
-            className="p-2 brutal-btn bg-lime text-ink"
+            className="p-2 brutal-btn bg-lime text-black"
             aria-label="Download"
           >
             <Download className="h-4 w-4" />
@@ -196,7 +196,7 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
                   loading=""
                   error={
                     <div className="flex flex-col items-center gap-2 p-8 text-center">
-                      <p className="font-mono text-sm text-ink/50 dark:text-paper/50">
+                      <p className="font-mono text-sm text-black/50 dark:text-white/50">
                         Could not load PDF. Try downloading instead.
                       </p>
                       <a
@@ -228,7 +228,7 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
             loading=""
             error={
               <div className="flex flex-col items-center gap-2 p-8 text-center">
-                <p className="font-mono text-sm text-ink/50 dark:text-paper/50">
+                <p className="font-mono text-sm text-black/50 dark:text-white/50">
                   Could not load PDF. Try downloading instead.
                 </p>
                 <a href={fileUrl} download className="font-mono text-sm font-bold uppercase text-accent">
@@ -257,15 +257,15 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
             className={cn(
               "flex items-center gap-1 px-3 py-1.5 brutal-btn font-mono text-sm font-bold uppercase",
               currentPage <= 1
-                ? "opacity-30 cursor-not-allowed bg-paper dark:bg-ink text-ink dark:text-paper"
-                : "bg-paper dark:bg-ink text-ink dark:text-paper hover:bg-lime dark:hover:bg-lime dark:hover:text-ink"
+                ? "opacity-30 cursor-not-allowed bg-paper dark:bg-ink text-black dark:text-white"
+                : "bg-paper dark:bg-ink text-black dark:text-white hover:bg-lime dark:hover:bg-lime dark:hover:text-black"
             )}
           >
             <ChevronLeft className="h-4 w-4" />
             <span className="hidden sm:inline">Prev</span>
           </button>
 
-          <span className="font-mono text-sm font-bold tabular-nums text-ink dark:text-paper">
+          <span className="font-mono text-sm font-bold tabular-nums text-black dark:text-white">
             {currentPage} / {numPages}
           </span>
 
@@ -275,8 +275,8 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
             className={cn(
               "flex items-center gap-1 px-3 py-1.5 brutal-btn font-mono text-sm font-bold uppercase",
               currentPage >= numPages
-                ? "opacity-30 cursor-not-allowed bg-paper dark:bg-ink text-ink dark:text-paper"
-                : "bg-paper dark:bg-ink text-ink dark:text-paper hover:bg-lime dark:hover:bg-lime dark:hover:text-ink"
+                ? "opacity-30 cursor-not-allowed bg-paper dark:bg-ink text-black dark:text-white"
+                : "bg-paper dark:bg-ink text-black dark:text-white hover:bg-lime dark:hover:bg-lime dark:hover:text-black"
             )}
           >
             <span className="hidden sm:inline">Next</span>

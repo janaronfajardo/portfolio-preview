@@ -98,7 +98,7 @@ export function UploadForm() {
         onClick={() => inputRef.current?.click()}
         className={cn(
           "brutal-card cursor-pointer p-8 md:p-12 text-center transition-all",
-          dragOver ? "bg-lime text-ink translate-x-[-3px] translate-y-[-3px]" : "bg-paper dark:bg-ink-light text-ink dark:text-paper"
+          dragOver ? "bg-lime text-black translate-x-[-3px] translate-y-[-3px]" : "bg-paper dark:bg-ink-light text-black dark:text-white"
         )}
       >
         <input
@@ -114,18 +114,18 @@ export function UploadForm() {
         {file ? (
           <div className="flex flex-col items-center gap-3">
             <div className="w-14 h-14 brutal-border bg-accent flex items-center justify-center">
-              <FileText className="h-7 w-7 text-ink" />
+              <FileText className="h-7 w-7 text-black" />
             </div>
             <div>
               <p className="font-mono font-bold text-sm uppercase">{file.name}</p>
-              <p className="font-mono text-xs text-ink/60 dark:text-paper/60 mt-1">
+              <p className="font-mono text-xs text-black/60 dark:text-white/60 mt-1">
                 {(file.size / 1024 / 1024).toFixed(2)} MB
               </p>
             </div>
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); setFile(null); setStudentName(""); setStatus("idle"); }}
-              className="flex items-center gap-1 font-mono text-xs font-bold uppercase brutal-btn bg-pink text-ink px-3 py-1.5 mt-2"
+              className="flex items-center gap-1 font-mono text-xs font-bold uppercase brutal-btn bg-pink text-black px-3 py-1.5 mt-2"
             >
               <X className="h-3 w-3" />
               Remove
@@ -134,16 +134,16 @@ export function UploadForm() {
         ) : (
           <div className="flex flex-col items-center gap-3">
             <div className="w-14 h-14 brutal-border bg-cyan flex items-center justify-center">
-              <Upload className="h-7 w-7 text-ink" />
+              <Upload className="h-7 w-7 text-black" />
             </div>
             <div>
               <p className="font-mono font-bold text-sm uppercase">
                 Drop your file here
               </p>
-              <p className="font-mono text-xs text-ink/60 dark:text-paper/60 mt-1">
+              <p className="font-mono text-xs text-black/60 dark:text-white/60 mt-1">
                 or click to browse — PDF or DOCX, max 10MB
               </p>
-              <p className="font-mono text-[0.7rem] text-ink/40 dark:text-paper/40 mt-2">
+              <p className="font-mono text-[0.7rem] text-black/40 dark:text-white/40 mt-2">
                 Filename format: Lastname_Firstname_Middleinitial
               </p>
             </div>
@@ -154,14 +154,14 @@ export function UploadForm() {
       {/* Name preview (read-only) */}
       {file && studentName && (
         <div>
-          <label className="block font-mono text-xs font-bold uppercase mb-2 text-ink dark:text-paper">
+          <label className="block font-mono text-xs font-bold uppercase mb-2 text-black dark:text-white">
             Parsed Name (preview)
           </label>
-          <div className="flex items-center gap-3 px-4 py-3 brutal-border bg-paper-dark dark:bg-ink text-ink dark:text-paper font-mono text-sm">
-            <User className="h-4 w-4 shrink-0 text-ink/50 dark:text-paper/50" />
+          <div className="flex items-center gap-3 px-4 py-3 brutal-border bg-paper-dark dark:bg-ink text-black dark:text-white font-mono text-sm">
+            <User className="h-4 w-4 shrink-0 text-black/50 dark:text-white/50" />
             <span className="font-bold uppercase">{studentName}</span>
           </div>
-          <p className="font-mono text-[0.7rem] text-ink/40 dark:text-paper/40 mt-2">
+          <p className="font-mono text-[0.7rem] text-black/40 dark:text-white/40 mt-2">
             Auto-parsed from filename. Rename your file if this is incorrect.
           </p>
         </div>
@@ -169,14 +169,14 @@ export function UploadForm() {
 
       {/* Status messages */}
       {status === "error" && errorMsg && (
-        <div className="brutal-card bg-pink text-ink p-4 flex items-center gap-3">
+        <div className="brutal-card bg-pink text-black p-4 flex items-center gap-3">
           <AlertCircle className="h-5 w-5 shrink-0" />
           <p className="font-mono text-sm font-bold">{errorMsg}</p>
         </div>
       )}
 
       {status === "success" && (
-        <div className="brutal-card bg-lime text-ink p-4 flex items-center gap-3">
+        <div className="brutal-card bg-lime text-black p-4 flex items-center gap-3">
           <Check className="h-5 w-5 shrink-0" />
           <p className="font-mono text-sm font-bold">
             Upload successful! Your document is now in the gallery.
@@ -189,7 +189,7 @@ export function UploadForm() {
         type="submit"
         disabled={!file || !studentName || status === "uploading"}
         className={cn(
-          "flex items-center justify-center gap-2 px-6 py-4 font-mono text-sm font-bold uppercase brutal-btn text-ink",
+          "flex items-center justify-center gap-2 px-6 py-4 font-mono text-sm font-bold uppercase brutal-btn text-black",
           !file || !studentName || status === "uploading"
             ? "bg-paper dark:bg-ink opacity-50 cursor-not-allowed"
             : "bg-accent hover:bg-lime"

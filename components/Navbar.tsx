@@ -47,8 +47,8 @@ export function Navbar() {
                   className={cn(
                     "px-4 py-2 font-mono text-sm font-bold uppercase tracking-wide brutal-btn",
                     pathname === link.href
-                      ? "bg-accent text-ink"
-                      : "bg-paper dark:bg-ink text-ink dark:text-paper hover:bg-yellow dark:hover:bg-yellow dark:hover:text-ink"
+                      ? "bg-accent text-black"
+                      : "bg-paper dark:bg-ink text-black dark:text-white hover:bg-yellow dark:hover:bg-yellow dark:hover:text-black"
                   )}
                 >
                   {link.label}
@@ -56,7 +56,7 @@ export function Navbar() {
               ))}
               <button
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="p-2 brutal-btn bg-lime text-ink"
+                className="p-2 brutal-btn bg-lime text-black"
                 aria-label="Toggle theme"
               >
                 {theme === "dark" ? (
@@ -68,7 +68,7 @@ export function Navbar() {
             </div>
 
             <button
-              className="md:hidden p-2 brutal-btn bg-lime text-ink"
+              className="md:hidden p-2 brutal-btn bg-lime text-black"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
             >
@@ -94,8 +94,8 @@ export function Navbar() {
                   className={cn(
                     "px-4 py-3 font-mono text-base font-bold uppercase brutal-btn",
                     pathname === link.href
-                      ? "bg-accent text-ink"
-                      : "bg-paper dark:bg-ink text-ink dark:text-paper"
+                      ? "bg-accent text-black"
+                      : "bg-paper dark:bg-ink text-black dark:text-white"
                   )}
                 >
                   {link.label}
@@ -105,7 +105,7 @@ export function Navbar() {
                 onClick={() => {
                   setTheme(theme === "dark" ? "light" : "dark");
                 }}
-                className="flex items-center gap-2 px-4 py-3 font-mono text-base font-bold uppercase brutal-btn bg-lime text-ink text-left"
+                className="flex items-center gap-2 px-4 py-3 font-mono text-base font-bold uppercase brutal-btn bg-lime text-black text-left"
               >
                 {theme === "dark" ? "Light Mode" : "Dark Mode"}
                 {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}

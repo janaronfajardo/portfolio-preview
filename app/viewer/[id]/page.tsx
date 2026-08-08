@@ -67,13 +67,13 @@ export default async function ViewerPage({ params }: { params: { id: string } })
             {assignment.title}
           </h1>
           {assignment.description && (
-            <p className="font-mono text-ink/60 dark:text-paper/60 text-fluid-base leading-relaxed">
+            <p className="font-mono text-black/60 dark:text-white/60 text-fluid-base leading-relaxed">
               {assignment.description}
             </p>
           )}
         </div>
 
-        <div className="brutal-card bg-yellow text-ink p-4 flex flex-col gap-3 text-sm">
+        <div className="brutal-card bg-yellow text-black p-4 flex flex-col gap-3 text-sm">
           <div className="flex items-center gap-2 font-mono font-bold">
             <User className="h-4 w-4" />
             {assignment.studentName}
@@ -114,11 +114,11 @@ export default async function ViewerPage({ params }: { params: { id: string } })
         {prevAssignment ? (
           <Link
             href={`/viewer/${prevAssignment.id}`}
-            className="group flex items-center gap-2 max-w-[45%] brutal-btn bg-paper dark:bg-ink text-ink dark:text-paper px-4 py-3"
+            className="group flex items-center gap-2 max-w-[45%] brutal-btn bg-paper dark:bg-ink text-black dark:text-white px-4 py-3"
           >
             <ArrowLeft className="h-4 w-4 shrink-0 transition-transform group-hover:-translate-x-1" />
             <div className="min-w-0">
-              <p className="font-mono text-xs text-ink/40 dark:text-paper/40 uppercase">Previous</p>
+              <p className="font-mono text-xs text-black/40 dark:text-white/40 uppercase">Previous</p>
               <p className="font-mono text-sm font-bold truncate group-hover:text-accent transition-colors uppercase">
                 {prevAssignment.title}
               </p>
@@ -131,11 +131,11 @@ export default async function ViewerPage({ params }: { params: { id: string } })
         {nextAssignment ? (
           <Link
             href={`/viewer/${nextAssignment.id}`}
-            className="group flex items-center gap-2 max-w-[45%] text-right flex-row-reverse brutal-btn bg-paper dark:bg-ink text-ink dark:text-paper px-4 py-3"
+            className="group flex items-center gap-2 max-w-[45%] text-right flex-row-reverse brutal-btn bg-paper dark:bg-ink text-black dark:text-white px-4 py-3"
           >
             <ArrowLeft className="h-4 w-4 shrink-0 rotate-180 transition-transform group-hover:translate-x-1" />
             <div className="min-w-0">
-              <p className="font-mono text-xs text-ink/40 dark:text-paper/40 uppercase">Next</p>
+              <p className="font-mono text-xs text-black/40 dark:text-white/40 uppercase">Next</p>
               <p className="font-mono text-sm font-bold truncate group-hover:text-accent transition-colors uppercase">
                 {nextAssignment.title}
               </p>

@@ -11,7 +11,7 @@ export default async function HomePage() {
   let featured: Assignment[] = [];
   try {
     const resources = await listDocuments();
-    featured = resources.slice(0, 4).map((r) => {
+    featured = resources.map((r) => {
       const ctx = parseContext(r.context);
       return {
         id: r.public_id,
@@ -23,7 +23,7 @@ export default async function HomePage() {
         tags: r.tags || [],
         description: "",
       };
-    });
+    }).sort((a, b) => a.title.localeCompare(b.title)).slice(0, 4);
   } catch {
     featured = [];
   }
@@ -38,15 +38,15 @@ export default async function HomePage() {
             <div className="flex items-end justify-between mb-8 md:mb-12">
               <div>
                 <h2 className="font-mono font-black text-fluid-xl mb-2 uppercase">
-                  <span className="bg-lime text-ink px-2">Featured Work</span>
+                  <span className="bg-lime text-black px-2">Featured Work</span>
                 </h2>
-                <p className="font-mono text-ink/60 dark:text-paper/60 text-fluid-sm">
+                <p className="font-mono text-black/60 dark:text-white/60 text-fluid-sm">
                   A selection of standout submissions
                 </p>
               </div>
               <Link
                 href="/gallery"
-                className="group hidden sm:flex items-center gap-1 font-mono text-sm font-bold uppercase brutal-btn bg-paper dark:bg-ink text-ink dark:text-paper px-4 py-2"
+                className="group hidden sm:flex items-center gap-1 font-mono text-sm font-bold uppercase brutal-btn bg-paper dark:bg-ink text-black dark:text-white px-4 py-2"
               >
                 View all
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -67,10 +67,10 @@ export default async function HomePage() {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <h3 className="font-mono font-bold text-base leading-tight group-hover:text-accent transition-colors uppercase text-ink dark:text-paper">
+                  <h3 className="font-mono font-bold text-base leading-tight group-hover:text-accent transition-colors uppercase text-black dark:text-white">
                     {a.title}
                   </h3>
-                  <p className="font-mono text-xs text-ink/50 dark:text-paper/50 mt-0.5">
+                  <p className="font-mono text-xs text-black/50 dark:text-white/50 mt-0.5">
                     {a.studentName}
                   </p>
                 </Link>
@@ -79,7 +79,7 @@ export default async function HomePage() {
 
             <Link
               href="/gallery"
-              className="group flex sm:hidden items-center justify-center gap-1 font-mono text-sm font-bold uppercase brutal-btn bg-paper dark:bg-ink text-ink dark:text-paper px-4 py-2 mt-6"
+              className="group flex sm:hidden items-center justify-center gap-1 font-mono text-sm font-bold uppercase brutal-btn bg-paper dark:bg-ink text-black dark:text-white px-4 py-2 mt-6"
             >
               View all
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -91,7 +91,7 @@ export default async function HomePage() {
       {featured.length === 0 && (
         <section className="px-[clamp(1rem,5vw,3rem)] py-12 md:py-20">
           <div className="mx-auto max-w-2xl text-center">
-            <div className="brutal-card bg-yellow text-ink p-8 md:p-12 rotate-neg-1deg">
+            <div className="brutal-card bg-yellow text-black p-8 md:p-12 rotate-neg-1deg">
               <h2 className="font-mono font-black text-fluid-xl mb-4 uppercase">
                 No Submissions Yet
               </h2>
@@ -100,7 +100,7 @@ export default async function HomePage() {
               </p>
               <Link
                 href="/upload"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-ink font-mono text-sm font-bold uppercase brutal-btn hover:bg-lime"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-black font-mono text-sm font-bold uppercase brutal-btn hover:bg-lime"
               >
                 Upload Your Work
                 <ArrowRight className="h-4 w-4" />
@@ -113,7 +113,7 @@ export default async function HomePage() {
       <footer className="px-[clamp(1rem,5vw,3rem)] py-12 brutal-border border-t-[3px]">
         <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4">
           <ShowcaseLetters />
-          <p className="font-mono text-xs text-ink/40 dark:text-paper/40 uppercase">
+          <p className="font-mono text-xs text-black/40 dark:text-white/40 uppercase">
             Class Assignment Gallery
           </p>
         </div>

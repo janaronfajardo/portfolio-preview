@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { uploadDocument } from "@/lib/cloudinary";
+import { uploadDocument, listDocuments, parseContext, cloudinary } from "@/lib/cloudinary";
 
 export const dynamic = "force-dynamic";
 
@@ -30,6 +30,22 @@ export async function POST(req: NextRequest) {
         { error: "File too large. Maximum size is 10MB." },
         { status: 400 }
       );
+    }
+
+    // Check for existing document with same student name and delete it
+    try {
+      const existing = await listDocuments();
+      const duplicate = existing.find((r) => {
+        const ctx = parseContext(r.context);
+        return (ctx.student_name || "").toLowerCase() === studentName.toLowerCase();
+      });
+      if (duplicate) {
+        await cloudinary.uploader.destroy(duplicate.public_id, {
+          resource_type: "raw",
+        });
+      }
+    } catch (err) {
+      console.error("Failed to check duplicates:", err);
     }
 
     const bytes = await file.arrayBuffer();
