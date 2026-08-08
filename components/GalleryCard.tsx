@@ -1,15 +1,17 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
-import { FileText, ArrowUpRight } from "lucide-react";
+import { FileText, ArrowUpRight, Trash2, AlertCircle } from "lucide-react";
 import type { Assignment } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 const tagColors = ["bg-cyan text-ink", "bg-accent text-ink", "bg-lime text-ink", "bg-pink text-ink", "bg-yellow text-ink"];
 
-export function GalleryCard({ assignment, index }: { assignment: Assignment; index: number }) {
+export function GalleryCard({ assignment, index, onDelete }: { assignment: Assignment; index: number; onDelete?: (id: string) => void }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!cardRef.current) return;
@@ -20,7 +22,33 @@ export function GalleryCard({ assignment, index }: { assignment: Assignment; ind
     if (!cardRef.current) return;
   };
 
+  const handleDelete = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowConfirm(true);
+  };
+
+  const confirmDelete = async () => {
+    setDeleting(true);
+    try {
+      const res = await fetch("/api/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ publicId: assignment.id }),
+      });
+      if (res.ok) {
+        onDelete?.(assignment.id);
+        setShowConfirm(false);
+      }
+    } catch (err) {
+      console.error("Delete failed:", err);
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   return (
+    <>
     <Link href={`/viewer/${assignment.id}`} className="group block">
       <div
         ref={cardRef}
@@ -45,8 +73,17 @@ export function GalleryCard({ assignment, index }: { assignment: Assignment; ind
             </span>
           </div>
 
-          <div className="absolute top-3 right-3 w-9 h-9 brutal-border bg-paper dark:bg-ink-light text-ink dark:text-paper flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <ArrowUpRight className="h-4 w-4" />
+          <div className="absolute top-3 right-3 flex gap-2">
+            <button
+              onClick={handleDelete}
+              className="w-9 h-9 brutal-border bg-pink text-ink flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:scale-110"
+              aria-label="Delete"
+            >
+              <Trash2 className="h-4 w-4" />
+            </button>
+            <div className="w-9 h-9 brutal-border bg-paper dark:bg-ink-light text-ink dark:text-paper flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <ArrowUpRight className="h-4 w-4" />
+            </div>
           </div>
         </div>
 
@@ -73,5 +110,47 @@ export function GalleryCard({ assignment, index }: { assignment: Assignment; ind
         </div>
       </div>
     </Link>
+
+      {showConfirm && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/80 p-4"
+          onClick={() => setShowConfirm(false)}
+        >
+          <div
+            className="brutal-card bg-paper dark:bg-ink p-6 max-w-sm w-full rotate-neg-1deg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start gap-3 mb-4">
+              <div className="w-10 h-10 brutal-border bg-pink text-ink flex items-center justify-center shrink-0">
+                <AlertCircle className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="font-mono font-black text-base uppercase text-ink dark:text-paper mb-1">
+                  Delete Document?
+                </h3>
+                <p className="font-mono text-sm text-ink/60 dark:text-paper/60">
+                  This will permanently delete <span className="font-bold">{assignment.title}</span> from the gallery. This cannot be undone.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="flex-1 px-4 py-3 brutal-btn bg-paper dark:bg-ink text-ink dark:text-paper font-mono text-sm font-bold uppercase hover:bg-paper-dark dark:hover:bg-ink-light"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                disabled={deleting}
+                className="flex-1 px-4 py-3 brutal-btn bg-pink text-ink font-mono text-sm font-bold uppercase hover:bg-accent disabled:opacity-50"
+              >
+                {deleting ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

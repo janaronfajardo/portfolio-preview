@@ -113,7 +113,7 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
 
       <div
         {...(isMobile ? swipeHandlers : {})}
-        className="flex-1 overflow-auto bg-paper-dark/30 dark:bg-ink-light/40 flex items-center justify-center relative brutal-border border-b-[3px]"
+        className="flex-1 overflow-auto bg-paper-dark/30 dark:bg-ink-light/40 flex items-start justify-center relative brutal-border border-b-[3px] py-4"
       >
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center">
@@ -129,8 +129,8 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
             centerOnInit
           >
               <TransformComponent
-                wrapperClass="w-full"
-                contentClass="flex items-center justify-center"
+                wrapperClass="w-full max-w-[612px] mx-auto"
+                contentClass="flex items-start justify-center"
               >
                 <Document
                   file={fileUrl}
@@ -155,7 +155,8 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
                   <Page
                     pageNumber={currentPage}
                     scale={scale}
-                    className="shadow-2xl"
+                    width={612}
+                    className="shadow-2xl mx-auto"
                     renderTextLayer={false}
                     renderAnnotationLayer={false}
                   />
@@ -182,7 +183,8 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
             <Page
               pageNumber={currentPage}
               scale={scale}
-              className="shadow-2xl"
+              width={612}
+              className="shadow-2xl mx-auto"
               renderTextLayer={false}
               renderAnnotationLayer={false}
             />

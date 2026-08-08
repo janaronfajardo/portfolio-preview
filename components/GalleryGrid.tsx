@@ -31,6 +31,10 @@ export function GalleryGrid() {
     });
   }, [search, documents]);
 
+  const handleDelete = (id: string) => {
+    setDocuments((prev) => prev.filter((d) => d.id !== id));
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-[clamp(1rem,5vw,3rem)] py-8 md:py-12">
       <div className="mb-8 md:mb-12">
@@ -56,7 +60,7 @@ export function GalleryGrid() {
         <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {filtered.map((assignment, index) => (
             <div key={assignment.id} className="animate-stagger" style={{ animationDelay: `${index * 60}ms` }}>
-              <GalleryCard assignment={assignment} index={index} />
+              <GalleryCard assignment={assignment} index={index} onDelete={handleDelete} />
             </div>
           ))}
         </div>
