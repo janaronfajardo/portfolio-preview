@@ -69,9 +69,11 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
     preventScrollOnSwipe: true,
   });
 
+  const { ref: swipeRef, ...swipeRest } = swipeHandlers;
+
   const mergedRef = (el: HTMLDivElement | null) => {
     containerRef.current = el;
-    swipeHandlers.ref(el);
+    swipeRef(el);
   };
 
   const zoomIn = () => setScale((s) => Math.min(3, s + 0.25));
@@ -126,7 +128,7 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
 
       <div
         ref={mergedRef}
-        {...(isMobile ? { ...swipeHandlers, ref: undefined } : {})}
+        {...(isMobile ? swipeRest : {})}
         className="flex-1 overflow-auto bg-paper-dark/30 dark:bg-ink-light/40 flex items-start justify-center relative brutal-border border-b-[3px] py-4 px-4"
       >
         {loading && (
