@@ -109,7 +109,7 @@ export function Hero() {
         </h1>
 
         <p className="hero-description max-w-lg text-fluid-base text-ink/80 dark:text-paper/80 mb-10 leading-relaxed font-mono">
-          Student work, on display. Read 'em, zoom 'em, judge 'em.
+          Student work, on display. Read &apos;em, zoom &apos;em, judge &apos;em.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 mb-16">

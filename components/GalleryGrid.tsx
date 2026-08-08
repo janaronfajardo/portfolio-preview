@@ -29,7 +29,7 @@ export function GalleryGrid() {
         a.tags.some((t) => t.toLowerCase().includes(search.toLowerCase()));
       return matchesSearch;
     });
-  }, [search]);
+  }, [search, documents]);
 
   return (
     <div className="mx-auto max-w-7xl px-[clamp(1rem,5vw,3rem)] py-8 md:py-12">
