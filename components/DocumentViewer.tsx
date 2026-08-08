@@ -30,7 +30,7 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [containerWidth, setContainerWidth] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const check = () => {
