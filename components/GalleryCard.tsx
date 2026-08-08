@@ -37,8 +37,7 @@ export function GalleryCard({ assignment, index, onDelete }: { assignment: Assig
         body: JSON.stringify({ publicId: assignment.id }),
       });
       if (res.ok) {
-        onDelete?.(assignment.id);
-        setShowConfirm(false);
+        window.location.reload();
       }
     } catch (err) {
       console.error("Delete failed:", err);

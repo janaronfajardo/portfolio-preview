@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useSwipeable } from "react-swipeable";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
@@ -29,9 +29,17 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
   const [scale, setScale] = useState(1);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
+    const check = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        setContainerWidth(Math.floor(rect.width - 32));
+      }
+    };
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
@@ -112,8 +120,9 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
       </div>
 
       <div
+        ref={containerRef}
         {...(isMobile ? swipeHandlers : {})}
-        className="flex-1 overflow-auto bg-paper-dark/30 dark:bg-ink-light/40 flex items-start justify-center relative brutal-border border-b-[3px] py-4"
+        className="flex-1 overflow-auto bg-paper-dark/30 dark:bg-ink-light/40 flex items-start justify-center relative brutal-border border-b-[3px] py-4 px-4"
       >
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center">
@@ -129,7 +138,7 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
             centerOnInit
           >
               <TransformComponent
-                wrapperClass="w-full max-w-[612px] mx-auto"
+                wrapperClass="w-full"
                 contentClass="flex items-start justify-center"
               >
                 <Document
@@ -155,7 +164,7 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
                   <Page
                     pageNumber={currentPage}
                     scale={scale}
-                    width={612}
+                    width={containerWidth || undefined}
                     className="shadow-2xl mx-auto"
                     renderTextLayer={false}
                     renderAnnotationLayer={false}
@@ -183,7 +192,7 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
             <Page
               pageNumber={currentPage}
               scale={scale}
-              width={612}
+              width={containerWidth || undefined}
               className="shadow-2xl mx-auto"
               renderTextLayer={false}
               renderAnnotationLayer={false}
