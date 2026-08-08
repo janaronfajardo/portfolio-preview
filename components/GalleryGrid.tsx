@@ -11,7 +11,7 @@ export function GalleryGrid() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/documents")
+    fetch("/api/documents", { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
         setDocuments(data.documents || []);

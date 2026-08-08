@@ -52,10 +52,10 @@ export default async function ViewerPage({ params }: { params: { id: string } })
   const nextAssignment = currentIndex >= 0 && currentIndex < allAssignments.length - 1 ? allAssignments[currentIndex + 1] : null;
 
   return (
-    <div className="mx-auto max-w-5xl px-[clamp(1rem,5vw,3rem)] py-8 md:py-12">
+    <div className="mx-auto max-w-5xl px-[clamp(1rem,5vw,3rem)] py-4 md:py-8">
       <Link
         href="/gallery"
-        className="group inline-flex items-center gap-1 font-mono text-sm font-bold uppercase brutal-btn bg-paper dark:bg-ink px-4 py-2 mb-6"
+        className="group inline-flex items-center gap-1 font-mono text-sm font-bold uppercase brutal-btn bg-paper dark:bg-ink px-4 py-2 mb-4 md:mb-6"
       >
         <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
         Back to Gallery

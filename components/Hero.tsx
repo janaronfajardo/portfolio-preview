@@ -14,7 +14,7 @@ export function Hero() {
   const [stats, setStats] = useState({ documents: 0, students: 0 });
 
   useEffect(() => {
-    fetch("/api/documents")
+    fetch("/api/documents", { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
         const docs = data.documents || [];

@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { listDocuments, parseContext } from "@/lib/cloudinary";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export async function GET() {
   try {
     const resources = await listDocuments();

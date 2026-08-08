@@ -81,7 +81,7 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
   const resetZoom = () => setScale(1);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)]">
+    <div className="flex flex-col h-[calc(100vh-3.5rem)] md:h-[calc(100vh-4rem)]">
       <div className="flex items-center justify-between px-4 py-3 brutal-border border-b-[3px] bg-paper dark:bg-ink">
         <div className="min-w-0 flex-1">
           <h2 className="font-mono font-bold text-sm sm:text-base truncate uppercase text-ink dark:text-paper">{title}</h2>
