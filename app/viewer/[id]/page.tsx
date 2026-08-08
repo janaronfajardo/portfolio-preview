@@ -1,23 +1,18 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Calendar, User, Tag } from "lucide-react";
-import { listDocuments, getDocument } from "@/lib/cloudinary";
+import { listDocuments, getDocument, parseContext, type CloudinaryResource } from "@/lib/cloudinary";
 import type { Assignment } from "@/lib/data";
 import { DocumentViewer } from "@/components/DocumentViewer";
 
 export const dynamic = "force-dynamic";
 
-function resourceToAssignment(r: {
-  public_id: string;
-  secure_url: string;
-  created_at: string;
-  context?: { custom?: { student_name?: string; title?: string } };
-  tags?: string[];
-}): Assignment {
+function resourceToAssignment(r: CloudinaryResource): Assignment {
+  const ctx = parseContext(r.context);
   return {
     id: r.public_id,
-    title: r.context?.custom?.title || r.context?.custom?.student_name || "Untitled",
-    studentName: r.context?.custom?.student_name || "Unknown",
+    title: ctx.title || ctx.student_name || "Untitled",
+    studentName: ctx.student_name || "Unknown",
     date: r.created_at.split("T")[0],
     fileUrl: r.secure_url,
     thumbnail: "/thumbnails/placeholder.svg",

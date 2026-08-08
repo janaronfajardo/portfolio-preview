@@ -1,6 +1,6 @@
 import { Hero } from "@/components/Hero";
 import { ShowcaseLetters } from "@/components/ShowcaseLetters";
-import { listDocuments } from "@/lib/cloudinary";
+import { listDocuments, parseContext } from "@/lib/cloudinary";
 import type { Assignment } from "@/lib/data";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -11,16 +11,19 @@ export default async function HomePage() {
   let featured: Assignment[] = [];
   try {
     const resources = await listDocuments();
-    featured = resources.slice(0, 4).map((r) => ({
-      id: r.public_id,
-      title: r.context?.custom?.title || r.context?.custom?.student_name || "Untitled",
-      studentName: r.context?.custom?.student_name || "Unknown",
-      date: r.created_at.split("T")[0],
-      fileUrl: r.secure_url,
-      thumbnail: "/thumbnails/placeholder.svg",
-      tags: r.tags || [],
-      description: "",
-    }));
+    featured = resources.slice(0, 4).map((r) => {
+      const ctx = parseContext(r.context);
+      return {
+        id: r.public_id,
+        title: ctx.title || ctx.student_name || "Untitled",
+        studentName: ctx.student_name || "Unknown",
+        date: r.created_at.split("T")[0],
+        fileUrl: r.secure_url,
+        thumbnail: "/thumbnails/placeholder.svg",
+        tags: r.tags || [],
+        description: "",
+      };
+    });
   } catch {
     featured = [];
   }

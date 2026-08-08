@@ -13,20 +13,28 @@ export type CloudinaryResource = {
   secure_url: string;
   format: string;
   created_at: string;
-  context: {
-    custom?: {
-      student_name?: string;
-      title?: string;
-    };
-  };
+  context?: string | { custom?: Record<string, string> };
   tags: string[];
 };
+
+export function parseContext(context: CloudinaryResource["context"]): Record<string, string> {
+  if (!context) return {};
+  if (typeof context === "string") {
+    const parsed: Record<string, string> = {};
+    context.split("|").forEach((pair) => {
+      const [key, ...rest] = pair.split("=");
+      if (key) parsed[key.trim()] = rest.join("=").trim();
+    });
+    return parsed;
+  }
+  return context.custom || {};
+}
 
 export async function listDocuments() {
   const result = await cloudinary.api.resources({
     type: "upload",
     resource_type: "raw",
-    prefix: "showcase/",
+    prefix: "showcase_",
     context: true,
     tags: true,
     max_results: 100,
@@ -49,7 +57,7 @@ export async function uploadDocument(
   filename: string,
   studentName: string
 ) {
-  const publicId = `showcase/${Date.now()}-${Math.random()
+  const publicId = `showcase_${Date.now()}-${Math.random()
     .toString(36)
     .slice(2, 8)}`;
 
@@ -59,12 +67,7 @@ export async function uploadDocument(
         {
           public_id: publicId,
           resource_type: "raw",
-          context: {
-            custom: {
-              student_name: studentName,
-              title: studentName,
-            },
-          },
+          context: `student_name=${studentName}|title=${studentName}`,
         },
         (err, res) => {
           if (err) reject(err);
