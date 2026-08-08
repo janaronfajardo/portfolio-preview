@@ -102,10 +102,14 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
     try {
       const res = await fetch(fileUrl);
       const blob = await res.blob();
+      const contentType = blob.type || res.headers.get("content-type") || "";
+      let ext = "pdf";
+      if (contentType.includes("pdf")) ext = "pdf";
+      else if (contentType.includes("word") || contentType.includes("docx")) ext = "docx";
+      else if (contentType.includes("msword")) ext = "doc";
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      const ext = fileUrl.split(".").pop()?.split("?")[0] || "pdf";
       a.download = `${studentName.replace(/[^a-zA-Z0-9\s]/g, "").trim().replace(/\s+/g, "_")}.${ext}`;
       document.body.appendChild(a);
       a.click();

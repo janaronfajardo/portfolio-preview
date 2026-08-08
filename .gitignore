@@ -12,6 +12,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 *.pdf
+*.docx
+*_wcoqbij2_*
 logo.png
 logov2.png
 unnamed.png
