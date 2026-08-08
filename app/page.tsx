@@ -114,7 +114,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4">
           <ShowcaseLetters />
           <p className="font-mono text-xs text-black/40 dark:text-white/40 uppercase">
-            Class Assignment Gallery
+            Diana Rose D. Areno | TTL1 Teacher
           </p>
         </div>
       </footer>

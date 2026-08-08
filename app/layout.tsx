@@ -9,13 +9,13 @@ import { NoiseOverlay, CustomCursor } from "@/components/Cursor";
 import { Navbar } from "@/components/Navbar";
 
 export const metadata: Metadata = {
-  title: "Showcase — Class Assignment Gallery",
+  title: "E-Portfolio — Diana Rose D. Areno",
   description:
-    "A gallery of student documents. Browse, zoom, and explore each document in detail.",
+    "Digital portfolio of an aspiring educator completing Professional Education Earning Units at SEAIT.",
   openGraph: {
-    title: "Showcase — Class Assignment Gallery",
+    title: "E-Portfolio — Diana Rose D. Areno",
     description:
-      "A gallery of student documents.",
+      "Digital portfolio of an aspiring educator completing Professional Education Earning Units at SEAIT.",
     type: "website",
   },
 };

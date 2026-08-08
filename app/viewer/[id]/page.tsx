@@ -26,11 +26,11 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     const r = await getDocument(params.id);
     const a = resourceToAssignment(r);
     return {
-      title: `${a.title} — Showcase`,
+      title: `${a.title} — E-Portfolio`,
       description: a.description,
     };
   } catch {
-    return { title: "Not Found — Showcase" };
+    return { title: "Not Found — E-Portfolio" };
   }
 }
 

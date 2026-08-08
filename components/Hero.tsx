@@ -101,15 +101,12 @@ export function Hero() {
 
         <h1 className="font-mono font-black text-fluid-3xl leading-[0.9] tracking-tighter mb-8 uppercase">
           <span className="hero-title-line block overflow-hidden">
-            Resumes &amp;
-          </span>
-          <span className="hero-title-line block overflow-hidden">
-            Portfolios.
+            WELCOME!
           </span>
         </h1>
 
-        <p className="hero-description max-w-lg text-fluid-base text-black/80 dark:text-white/80 mb-10 leading-relaxed font-mono">
-          Student work, on display. Read &apos;em, zoom &apos;em, judge &apos;em.
+        <p className="hero-description max-w-2xl text-fluid-base text-black/80 dark:text-white/80 mb-10 leading-relaxed font-mono">
+          This is the digital portfolio of an aspiring educator currently completing Professional Education Earning Units at SEAIT. Dedicated to mastering instructional strategies and educational theories, this site displays the core competencies and teaching artifacts built on my path toward the LEPT.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 mb-16">
