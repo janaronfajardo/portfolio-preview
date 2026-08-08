@@ -20,7 +20,9 @@ export function Hero() {
         const docs = data.documents || [];
         setStats({
           documents: docs.length,
-          students: new Set(docs.map((d: { studentName: string }) => d.studentName)).size,
+          students: new Set(
+            docs.map((d: { studentName: string }) => d.studentName.toLowerCase().trim())
+          ).size,
         });
       })
       .catch(() => {});

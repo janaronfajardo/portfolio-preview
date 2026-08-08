@@ -1,8 +1,8 @@
 import { UploadForm } from "@/components/UploadForm";
 
 export const metadata = {
-  title: "Upload — Showcase",
-  description: "Upload your document to showcase.",
+  title: "Upload — E-Portfolio",
+  description: "Upload your document to the E-Portfolio.",
 };
 
 export default function UploadPage() {

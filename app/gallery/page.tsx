@@ -1,7 +1,7 @@
 import { GalleryGrid } from "@/components/GalleryGrid";
 
 export const metadata = {
-  title: "Gallery — Showcase",
+  title: "Gallery — E-Portfolio",
   description: "Browse all student documents.",
 };
 
