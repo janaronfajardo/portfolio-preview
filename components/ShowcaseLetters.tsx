@@ -1,14 +1,17 @@
 import { cn } from "@/lib/utils";
 
 const letters = [
-  { char: "S", color: "bg-accent" },
-  { char: "H", color: "bg-lime" },
+  { char: "E", color: "bg-accent" },
+  { char: "-", color: "bg-lime" },
+  { char: "P", color: "bg-cyan" },
+  { char: "O", color: "bg-pink" },
+  { char: "R", color: "bg-yellow" },
+  { char: "T", color: "bg-accent" },
+  { char: "F", color: "bg-lime" },
   { char: "O", color: "bg-cyan" },
-  { char: "W", color: "bg-pink" },
-  { char: "C", color: "bg-yellow" },
-  { char: "A", color: "bg-accent" },
-  { char: "S", color: "bg-lime" },
-  { char: "E", color: "bg-cyan" },
+  { char: "L", color: "bg-pink" },
+  { char: "I", color: "bg-yellow" },
+  { char: "O", color: "bg-accent" },
 ];
 
 export function ShowcaseLetters({ className }: { className?: string }) {

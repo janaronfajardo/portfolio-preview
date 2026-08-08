@@ -95,7 +95,7 @@ export function Hero() {
         <div className="hero-eyebrow inline-flex items-center gap-2 mb-8 px-4 py-2 brutal-border bg-yellow text-black rotate-neg-1deg">
           <Zap className="h-4 w-4" />
           <span className="font-mono text-xs font-bold uppercase tracking-wide">
-            Class Assignment Showcase
+            E-Portfolio
           </span>
         </div>
 

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Menu, X, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
+import { ShowcaseLetters } from "@/components/ShowcaseLetters";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -25,17 +26,17 @@ export function Navbar() {
         <div className="brutal-border border-b-[3px] bg-paper dark:bg-ink">
           <nav className="mx-auto flex items-center justify-between px-[clamp(1rem,5vw,3rem)] py-3">
             <Link href="/" className="group flex items-center gap-3">
-              <Image
-                src="/logov2.png"
-                alt="Logo"
-                width={44}
-                height={44}
-                className="object-contain"
-                unoptimized
-              />
-              <span className="hidden sm:flex font-mono font-black text-lg uppercase tracking-wide text-black dark:text-white">
-                E-Portfolio
-              </span>
+              <div className="w-11 h-11 brutal-border bg-accent overflow-hidden flex items-center justify-center">
+                <Image
+                  src="/logov2.png"
+                  alt="Logo"
+                  width={44}
+                  height={44}
+                  className="object-contain"
+                  unoptimized
+                />
+              </div>
+              <ShowcaseLetters className="hidden sm:flex" />
             </Link>
 
             <div className="hidden md:flex items-center gap-3">
