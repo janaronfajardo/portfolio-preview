@@ -10,6 +10,7 @@ import {
   ZoomIn,
   ZoomOut,
   Maximize2,
+  Minimize2,
   Download,
   Loader2,
 } from "lucide-react";
@@ -30,7 +31,9 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [containerWidth, setContainerWidth] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const viewerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const check = () => {
@@ -80,8 +83,41 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
   const zoomOut = () => setScale((s) => Math.max(0.5, s - 0.25));
   const resetZoom = () => setScale(1);
 
+  const toggleFullscreen = () => {
+    if (!viewerRef.current) return;
+    if (!document.fullscreenElement) {
+      viewerRef.current.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  };
+
+  useEffect(() => {
+    const onChange = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", onChange);
+    return () => document.removeEventListener("fullscreenchange", onChange);
+  }, []);
+
+  const handleDownload = async () => {
+    try {
+      const res = await fetch(fileUrl);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      const ext = fileUrl.split(".").pop()?.split("?")[0] || "pdf";
+      a.download = `${studentName.replace(/[^a-zA-Z0-9\s]/g, "").trim().replace(/\s+/g, "_")}.${ext}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch {
+      window.open(fileUrl, "_blank");
+    }
+  };
+
   return (
-    <div className="flex flex-col h-[calc(100vh-3.5rem)] md:h-[calc(100vh-4rem)]">
+    <div ref={viewerRef} className="flex flex-col h-[calc(100vh-3.5rem)] md:h-[calc(100vh-4rem)]">
       <div className="flex items-center justify-between px-4 py-3 brutal-border border-b-[3px] bg-paper dark:bg-ink">
         <div className="min-w-0 flex-1">
           <h2 className="font-mono font-bold text-sm sm:text-base truncate uppercase text-ink dark:text-paper">{title}</h2>
@@ -109,20 +145,19 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
             <ZoomIn className="h-4 w-4" />
           </button>
           <button
-            onClick={resetZoom}
+            onClick={toggleFullscreen}
             className="p-2 brutal-btn bg-paper dark:bg-ink text-ink dark:text-paper hidden sm:block"
-            aria-label="Reset zoom"
+            aria-label="Toggle fullscreen"
           >
-            <Maximize2 className="h-4 w-4" />
+            {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </button>
-          <a
-            href={fileUrl}
-            download
+          <button
+            onClick={handleDownload}
             className="p-2 brutal-btn bg-lime text-ink"
             aria-label="Download"
           >
             <Download className="h-4 w-4" />
-          </a>
+          </button>
         </div>
       </div>
 
