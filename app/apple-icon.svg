@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
-  <rect width="180" height="180" fill="#FF5C00"/>
-  <rect x="12" y="12" width="156" height="156" fill="#0A0A0A" stroke="#0A0A0A" stroke-width="6"/>
-  <text x="90" y="128" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, monospace" font-size="120" font-weight="900" fill="#FF5C00" text-anchor="middle">S</text>
+  <rect width="180" height="180" fill="#997E67"/>
+  <rect x="12" y="12" width="156" height="156" fill="#664930" stroke="#664930" stroke-width="6"/>
+  <text x="90" y="128" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, monospace" font-size="120" font-weight="900" fill="#FFDBBB" text-anchor="middle">S</text>
 </svg>

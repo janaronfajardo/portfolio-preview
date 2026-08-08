@@ -31,6 +31,7 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [containerWidth, setContainerWidth] = useState(0);
+  const [containerHeight, setContainerHeight] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewerRef = useRef<HTMLDivElement | null>(null);
@@ -41,6 +42,7 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
         setContainerWidth(Math.floor(rect.width - 32));
+        setContainerHeight(Math.floor(rect.height - 32));
       }
     };
     check();
@@ -121,7 +123,7 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
   };
 
   return (
-    <div ref={viewerRef} className="flex flex-col h-[calc(100vh-3.5rem)] md:h-[calc(100vh-4rem)]">
+    <div ref={viewerRef} className="flex flex-col">
       <div className="flex items-center justify-between px-4 py-3 brutal-border border-b-[3px] bg-paper dark:bg-ink">
         <div className="min-w-0 flex-1">
           <h2 className="font-mono font-bold text-sm sm:text-base truncate uppercase text-ink dark:text-paper">{title}</h2>
@@ -168,7 +170,7 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
       <div
         ref={mergedRef}
         {...(isMobile ? swipeRest : {})}
-        className="flex-1 overflow-auto bg-paper-dark/30 dark:bg-ink-light/40 flex items-start justify-center relative brutal-border border-b-[3px] py-4 px-4"
+        className="bg-paper-dark/30 dark:bg-ink-light/40 flex items-start justify-center relative brutal-border border-b-[3px] py-4 px-4"
       >
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center">

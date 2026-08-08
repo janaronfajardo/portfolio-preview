@@ -25,10 +25,10 @@
     @apply bg-paper text-ink;
     font-feature-settings: "ss01", "ss02", "cv01", "cv03";
     background-image:
-      linear-gradient(30deg, rgba(10, 10, 10, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(10, 10, 10, 0.02) 87.5%, rgba(10, 10, 10, 0.02)),
-      linear-gradient(150deg, rgba(10, 10, 10, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(10, 10, 10, 0.02) 87.5%, rgba(10, 10, 10, 0.02)),
-      linear-gradient(30deg, rgba(10, 10, 10, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(10, 10, 10, 0.02) 87.5%, rgba(10, 10, 10, 0.02)),
-      linear-gradient(150deg, rgba(10, 10, 10, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(10, 10, 10, 0.02) 87.5%, rgba(10, 10, 10, 0.02));
+      linear-gradient(30deg, rgba(102, 73, 48, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(102, 73, 48, 0.02) 87.5%, rgba(102, 73, 48, 0.02)),
+      linear-gradient(150deg, rgba(102, 73, 48, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(102, 73, 48, 0.02) 87.5%, rgba(102, 73, 48, 0.02)),
+      linear-gradient(30deg, rgba(102, 73, 48, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(102, 73, 48, 0.02) 87.5%, rgba(102, 73, 48, 0.02)),
+      linear-gradient(150deg, rgba(102, 73, 48, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(102, 73, 48, 0.02) 87.5%, rgba(102, 73, 48, 0.02));
     background-size: 80px 140px;
     background-position: 0 0, 0 0, 40px 70px, 40px 70px;
   }
@@ -58,8 +58,8 @@
     left: 0;
     width: var(--cursor-size);
     height: var(--cursor-size);
-    border: 2px solid #0A0A0A;
-    background: #FF5C00;
+    border: 2px solid #664930;
+    background: #997E67;
     pointer-events: none;
     z-index: 10000;
     transform: translate(-50%, -50%);
@@ -69,79 +69,79 @@
   .custom-cursor.hovering {
     width: calc(var(--cursor-size) * var(--cursor-scale));
     height: calc(var(--cursor-size) * var(--cursor-scale));
-    background: #C4F500;
+    background: #CCBEB1;
   }
 
   .brutal-border {
-    border: var(--border-weight) solid #0A0A0A;
+    border: var(--border-weight) solid #664930;
   }
 
   .brutal-card {
-    border: var(--border-weight) solid #0A0A0A;
-    box-shadow: 6px 6px 0px 0px #0A0A0A;
+    border: var(--border-weight) solid #664930;
+    box-shadow: 6px 6px 0px 0px #664930;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
   .brutal-card:hover {
     transform: translate(-3px, -3px);
-    box-shadow: 9px 9px 0px 0px #0A0A0A;
+    box-shadow: 9px 9px 0px 0px #664930;
   }
 
   .brutal-card:active {
     transform: translate(3px, 3px);
-    box-shadow: 0px 0px 0px 0px #0A0A0A;
+    box-shadow: 0px 0px 0px 0px #664930;
   }
 
   .brutal-btn {
-    border: var(--border-weight) solid #0A0A0A;
-    box-shadow: 4px 4px 0px 0px #0A0A0A;
+    border: var(--border-weight) solid #664930;
+    box-shadow: 4px 4px 0px 0px #664930;
     transition: transform 0.1s ease, box-shadow 0.1s ease;
   }
 
   .brutal-btn:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px 0px #0A0A0A;
+    box-shadow: 6px 6px 0px 0px #664930;
   }
 
   .brutal-btn:active {
     transform: translate(2px, 2px);
-    box-shadow: 0px 0px 0px 0px #0A0A0A;
+    box-shadow: 0px 0px 0px 0px #664930;
   }
 
   .brutal-tag {
-    border: 2px solid #0A0A0A;
-    box-shadow: 2px 2px 0px 0px #0A0A0A;
+    border: 2px solid #664930;
+    box-shadow: 2px 2px 0px 0px #664930;
   }
 
   .dark .brutal-border {
-    border-color: #EAE6DA;
+    border-color: #FFDBBB;
   }
 
   .dark .brutal-card {
-    border-color: #EAE6DA;
-    box-shadow: 6px 6px 0px 0px #EAE6DA;
+    border-color: #FFDBBB;
+    box-shadow: 6px 6px 0px 0px #FFDBBB;
   }
 
   .dark .brutal-card:hover {
-    box-shadow: 9px 9px 0px 0px #EAE6DA;
+    box-shadow: 9px 9px 0px 0px #FFDBBB;
   }
 
   .dark .brutal-btn {
-    border-color: #EAE6DA;
-    box-shadow: 4px 4px 0px 0px #EAE6DA;
+    border-color: #FFDBBB;
+    box-shadow: 4px 4px 0px 0px #FFDBBB;
   }
 
   .dark .brutal-btn:hover {
-    box-shadow: 6px 6px 0px 0px #EAE6DA;
+    box-shadow: 6px 6px 0px 0px #FFDBBB;
   }
 
   .dark .brutal-tag {
-    border-color: #EAE6DA;
-    box-shadow: 2px 2px 0px 0px #EAE6DA;
+    border-color: #FFDBBB;
+    box-shadow: 2px 2px 0px 0px #FFDBBB;
   }
 
   .dark .custom-cursor {
-    border-color: #EAE6DA;
+    border-color: #FFDBBB;
   }
 }
 
