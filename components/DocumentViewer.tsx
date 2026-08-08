@@ -127,7 +127,6 @@ export function DocumentViewer({ fileUrl, title, studentName }: DocumentViewerPr
             minScale={0.5}
             maxScale={4}
             centerOnInit
-            doubleTap={{ step: 0.7 }}
           >
               <TransformComponent
                 wrapperClass="w-full"
