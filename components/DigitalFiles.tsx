@@ -455,37 +455,13 @@ function DigitalFileViewer({
         ref={containerRef}
         className="bg-paper-dark/30 dark:bg-ink-light/40 flex items-start justify-center relative brutal-border border-b-[3px] py-4 px-4"
       >
-        {isPdf ? (
-          <iframe
-            src={file.fileUrl}
-            className="w-full"
-            style={{ minHeight: "80vh" }}
-            frameBorder="0"
-            title={file.title}
-          />
-        ) : isPptx ? (
-          <iframe
-            src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(file.fileUrl)}`}
-            className="w-full"
-            style={{ minHeight: "80vh" }}
-            frameBorder="0"
-            title={file.title}
-          />
-        ) : (
-          <div className="flex flex-col items-center gap-4 p-8 text-center">
-            <FileText className="h-16 w-16 text-black/40 dark:text-white/40" />
-            <p className="font-mono text-sm text-black/60 dark:text-white/60">
-              Preview not available. Please download to view.
-            </p>
-            <button
-              onClick={onDownload}
-              className="flex items-center gap-2 px-6 py-3 bg-accent text-black font-mono text-sm font-bold uppercase brutal-btn hover:bg-lime"
-            >
-              <Download className="h-4 w-4" />
-              Download File
-            </button>
-          </div>
-        )}
+        <iframe
+          src={`https://docs.google.com/viewer?url=${encodeURIComponent(file.fileUrl)}&embedded=true`}
+          className="w-full"
+          style={{ minHeight: "85vh" }}
+          frameBorder="0"
+          title={file.title}
+        />
       </div>
     </div>
   );
