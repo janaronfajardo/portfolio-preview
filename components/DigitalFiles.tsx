@@ -445,7 +445,9 @@ function DigitalFileViewer({
     }
   };
 
-  const isPdf = file.fileUrl.toLowerCase().includes(".pdf") || true;
+  const fileUrlLower = file.fileUrl.toLowerCase();
+  const isPdf = fileUrlLower.includes(".pdf") || fileUrlLower.includes("pdf") || !fileUrlLower.includes(".pptx");
+  const isPptx = fileUrlLower.includes(".pptx") || fileUrlLower.includes("pptx");
 
   return (
     <div ref={viewerRef} className="flex flex-col min-h-screen">
@@ -457,25 +459,29 @@ function DigitalFileViewer({
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-          <button
-            onClick={zoomOut}
-            disabled={scale <= 0.5}
-            className="p-2 brutal-btn bg-paper dark:bg-ink text-black dark:text-white disabled:opacity-30"
-            aria-label="Zoom out"
-          >
-            <ZoomOut className="h-4 w-4" />
-          </button>
-          <span className="font-mono text-xs font-bold w-12 text-center tabular-nums text-black dark:text-white">
-            {Math.round(scale * 100)}%
-          </span>
-          <button
-            onClick={zoomIn}
-            disabled={scale >= 3}
-            className="p-2 brutal-btn bg-paper dark:bg-ink text-black dark:text-white disabled:opacity-30"
-            aria-label="Zoom in"
-          >
-            <ZoomIn className="h-4 w-4" />
-          </button>
+          {isPdf && (
+            <>
+              <button
+                onClick={zoomOut}
+                disabled={scale <= 0.5}
+                className="p-2 brutal-btn bg-paper dark:bg-ink text-black dark:text-white disabled:opacity-30"
+                aria-label="Zoom out"
+              >
+                <ZoomOut className="h-4 w-4" />
+              </button>
+              <span className="font-mono text-xs font-bold w-12 text-center tabular-nums text-black dark:text-white">
+                {Math.round(scale * 100)}%
+              </span>
+              <button
+                onClick={zoomIn}
+                disabled={scale >= 3}
+                className="p-2 brutal-btn bg-paper dark:bg-ink text-black dark:text-white disabled:opacity-30"
+                aria-label="Zoom in"
+              >
+                <ZoomIn className="h-4 w-4" />
+              </button>
+            </>
+          )}
           <button
             onClick={toggleFullscreen}
             className="p-2 brutal-btn bg-paper dark:bg-ink text-black dark:text-white"
@@ -508,7 +514,7 @@ function DigitalFileViewer({
         ref={containerRef}
         className="bg-paper-dark/30 dark:bg-ink-light/40 flex items-start justify-center relative brutal-border border-b-[3px] py-4 px-4"
       >
-        {loading && (
+        {loading && isPdf && (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="h-8 w-8 animate-spin text-accent" />
           </div>
@@ -555,11 +561,19 @@ function DigitalFileViewer({
               </TransformComponent>
             </TransformWrapper>
           </Document>
+        ) : isPptx ? (
+          <iframe
+            src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(file.fileUrl)}`}
+            className="w-full"
+            style={{ minHeight: "80vh" }}
+            frameBorder="0"
+            title={file.title}
+          />
         ) : (
           <div className="flex flex-col items-center gap-4 p-8 text-center">
             <FileText className="h-16 w-16 text-black/40 dark:text-white/40" />
             <p className="font-mono text-sm text-black/60 dark:text-white/60">
-              PPTX preview is not available. Please download to view.
+              Preview not available. Please download to view.
             </p>
             <button
               onClick={onDownload}
@@ -572,7 +586,7 @@ function DigitalFileViewer({
         )}
       </div>
 
-      {numPages > 0 && (
+      {isPdf && numPages > 0 && (
         <div className="flex items-center justify-between px-4 py-3 brutal-border border-t-[3px] bg-paper dark:bg-ink safe-bottom">
           <button
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
