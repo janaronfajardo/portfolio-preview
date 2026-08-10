@@ -12,16 +12,8 @@ import {
   Maximize2,
   Minimize2,
   Trash2,
-  ChevronLeft,
-  ChevronRight,
-  ZoomIn,
-  ZoomOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Document, Page, pdfjs } from "react-pdf";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 type DigitalFile = {
   id: string;
@@ -398,44 +390,15 @@ function DigitalFileViewer({
   onBack: () => void;
   onDownload: () => void;
 }) {
-  const [numPages, setNumPages] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [scale, setScale] = useState(1);
-  const [loading, setLoading] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [containerWidth, setContainerWidth] = useState(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewerRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const check = () => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        setContainerWidth(Math.floor(rect.width - 32));
-      }
-    };
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
 
   useEffect(() => {
     const onChange = () => setIsFullscreen(!!document.fullscreenElement);
     document.addEventListener("fullscreenchange", onChange);
     return () => document.removeEventListener("fullscreenchange", onChange);
   }, []);
-
-  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setNumPages(numPages);
-    setLoading(false);
-  };
-
-  const onDocumentLoadError = () => {
-    setLoading(false);
-  };
-
-  const zoomIn = () => setScale((s) => Math.min(3, s + 0.25));
-  const zoomOut = () => setScale((s) => Math.max(0.5, s - 0.25));
 
   const toggleFullscreen = () => {
     if (!viewerRef.current) return;
@@ -460,29 +423,6 @@ function DigitalFileViewer({
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-          {isPdf && (
-            <>
-              <button
-                onClick={zoomOut}
-                disabled={scale <= 0.5}
-                className="p-2 brutal-btn bg-paper dark:bg-ink text-black dark:text-white disabled:opacity-30"
-                aria-label="Zoom out"
-              >
-                <ZoomOut className="h-4 w-4" />
-              </button>
-              <span className="font-mono text-xs font-bold w-12 text-center tabular-nums text-black dark:text-white">
-                {Math.round(scale * 100)}%
-              </span>
-              <button
-                onClick={zoomIn}
-                disabled={scale >= 3}
-                className="p-2 brutal-btn bg-paper dark:bg-ink text-black dark:text-white disabled:opacity-30"
-                aria-label="Zoom in"
-              >
-                <ZoomIn className="h-4 w-4" />
-              </button>
-            </>
-          )}
           <button
             onClick={toggleFullscreen}
             className="p-2 brutal-btn bg-paper dark:bg-ink text-black dark:text-white"
@@ -515,53 +455,14 @@ function DigitalFileViewer({
         ref={containerRef}
         className="bg-paper-dark/30 dark:bg-ink-light/40 flex items-start justify-center relative brutal-border border-b-[3px] py-4 px-4"
       >
-        {loading && isPdf && (
-          <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-accent" />
-          </div>
-        )}
-
         {isPdf ? (
-          <Document
-            file={file.fileUrl}
-            onLoadSuccess={onDocumentLoadSuccess}
-            onLoadError={onDocumentLoadError}
-            loading=""
-            error={
-              <div className="flex flex-col items-center gap-2 p-8 text-center">
-                <p className="font-mono text-sm text-black/50 dark:text-white/50">
-                  Could not load file. Try downloading instead.
-                </p>
-                <button
-                  onClick={onDownload}
-                  className="font-mono text-sm font-bold uppercase text-accent"
-                >
-                  Download file
-                </button>
-              </div>
-            }
-          >
-            <TransformWrapper
-              initialScale={1}
-              minScale={0.5}
-              maxScale={4}
-              centerOnInit
-            >
-              <TransformComponent
-                wrapperClass="w-full"
-                contentClass="flex items-start justify-center"
-              >
-                <Page
-                  pageNumber={currentPage}
-                  scale={scale}
-                  width={containerWidth || undefined}
-                  className="shadow-2xl mx-auto"
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
-                />
-              </TransformComponent>
-            </TransformWrapper>
-          </Document>
+          <iframe
+            src={file.fileUrl}
+            className="w-full"
+            style={{ minHeight: "80vh" }}
+            frameBorder="0"
+            title={file.title}
+          />
         ) : isPptx ? (
           <iframe
             src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(file.fileUrl)}`}
@@ -586,42 +487,6 @@ function DigitalFileViewer({
           </div>
         )}
       </div>
-
-      {isPdf && numPages > 0 && (
-        <div className="flex items-center justify-between px-4 py-3 brutal-border border-t-[3px] bg-paper dark:bg-ink safe-bottom">
-          <button
-            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-            disabled={currentPage <= 1}
-            className={cn(
-              "flex items-center gap-1 px-3 py-1.5 brutal-btn font-mono text-sm font-bold uppercase",
-              currentPage <= 1
-                ? "opacity-30 cursor-not-allowed bg-paper dark:bg-ink text-black dark:text-white"
-                : "bg-paper dark:bg-ink text-black dark:text-white hover:bg-lime dark:hover:bg-lime dark:hover:text-black"
-            )}
-          >
-            <ChevronLeft className="h-4 w-4" />
-            <span className="hidden sm:inline">Prev</span>
-          </button>
-
-          <span className="font-mono text-sm font-bold tabular-nums text-black dark:text-white">
-            {currentPage} / {numPages}
-          </span>
-
-          <button
-            onClick={() => setCurrentPage((p) => Math.min(numPages, p + 1))}
-            disabled={currentPage >= numPages}
-            className={cn(
-              "flex items-center gap-1 px-3 py-1.5 brutal-btn font-mono text-sm font-bold uppercase",
-              currentPage >= numPages
-                ? "opacity-30 cursor-not-allowed bg-paper dark:bg-ink text-black dark:text-white"
-                : "bg-paper dark:bg-ink text-black dark:text-white hover:bg-lime dark:hover:bg-lime dark:hover:text-black"
-            )}
-          >
-            <span className="hidden sm:inline">Next</span>
-            <ChevronRight className="h-4 w-4" />
-          </button>
-        </div>
-      )}
     </div>
   );
 }
