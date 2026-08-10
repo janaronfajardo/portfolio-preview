@@ -38,6 +38,9 @@ export function GalleryGrid() {
   return (
     <div className="mx-auto max-w-7xl px-[clamp(1rem,5vw,3rem)] py-8 md:py-12">
       <div className="mb-8 md:mb-12">
+        <h1 className="font-mono font-black text-fluid-2xl mb-4 uppercase">
+          <span className="bg-lime text-black px-2">Portfolio</span>
+        </h1>
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-black/40 dark:text-white/40" />
           <input

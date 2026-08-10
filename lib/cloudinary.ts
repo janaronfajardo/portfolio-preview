@@ -84,3 +84,58 @@ export async function uploadDocument(
     created_at: string;
   };
 }
+
+export async function listDigitalFiles() {
+  const result = await cloudinary.api.resources({
+    type: "upload",
+    resource_type: "raw",
+    prefix: "digitalfile_",
+    context: true,
+    tags: true,
+    max_results: 100,
+  });
+
+  return result.resources as CloudinaryResource[];
+}
+
+export async function getDigitalFile(publicId: string) {
+  const result = await cloudinary.api.resource(publicId, {
+    resource_type: "raw",
+    context: true,
+    tags: true,
+  });
+  return result as CloudinaryResource;
+}
+
+export async function uploadDigitalFile(
+  fileBuffer: Buffer,
+  filename: string,
+  title: string
+) {
+  const publicId = `digitalfile_${Date.now()}-${Math.random()
+    .toString(36)
+    .slice(2, 8)}`;
+
+  const result = await new Promise((resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream(
+        {
+          public_id: publicId,
+          resource_type: "raw",
+          context: `title=${title}`,
+        },
+        (err, res) => {
+          if (err) reject(err);
+          else resolve(res);
+        }
+      )
+      .end(fileBuffer);
+  });
+
+  return result as {
+    public_id: string;
+    secure_url: string;
+    format: string;
+    created_at: string;
+  };
+}

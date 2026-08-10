@@ -11,7 +11,8 @@ import { ShowcaseLetters } from "@/components/ShowcaseLetters";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/gallery", label: "Gallery" },
+  { href: "/gallery", label: "Portfolio" },
+  { href: "/digital-files", label: "Digital Files" },
   { href: "/upload", label: "Upload" },
 ];
 
