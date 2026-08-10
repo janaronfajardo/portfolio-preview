@@ -127,18 +127,11 @@ export function DigitalFiles() {
     }
   };
 
-  const handleDownload = async (fileUrl: string, fileTitle: string) => {
+  const handleDownload = async (fileUrl: string, fileTitle: string, fileType?: string) => {
+    const ext = (fileType || "pdf").toLowerCase();
     try {
       const res = await fetch(fileUrl);
       const blob = await res.blob();
-      const contentType = blob.type || "";
-      let ext = "pdf";
-      if (contentType.includes("pdf")) ext = "pdf";
-      else if (
-        contentType.includes("presentation") ||
-        contentType.includes("pptx")
-      )
-        ext = "pptx";
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -160,7 +153,7 @@ export function DigitalFiles() {
           setViewing(null);
           fetchFiles();
         }}
-        onDownload={() => handleDownload(viewing.fileUrl, viewing.title)}
+        onDownload={() => handleDownload(viewing.fileUrl, viewing.title, viewing.fileType)}
       />
     );
   }
@@ -349,7 +342,7 @@ export function DigitalFiles() {
                     View
                   </button>
                   <button
-                    onClick={() => handleDownload(f.fileUrl, f.title)}
+                    onClick={() => handleDownload(f.fileUrl, f.title, f.fileType)}
                     className="flex items-center justify-center gap-1 font-mono text-xs font-bold uppercase brutal-btn bg-lime text-black px-3 py-2"
                   >
                     <Download className="h-3 w-3" />
