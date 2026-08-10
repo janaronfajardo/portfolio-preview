@@ -28,6 +28,7 @@ type DigitalFile = {
   title: string;
   date: string;
   fileUrl: string;
+  fileType?: string;
 };
 
 const ACCEPTED_TYPES = [".pdf", ".pptx"];
@@ -445,9 +446,9 @@ function DigitalFileViewer({
     }
   };
 
-  const fileUrlLower = file.fileUrl.toLowerCase();
-  const isPdf = fileUrlLower.includes(".pdf") || fileUrlLower.includes("pdf") || !fileUrlLower.includes(".pptx");
-  const isPptx = fileUrlLower.includes(".pptx") || fileUrlLower.includes("pptx");
+  const fileType = (file.fileType || "pdf").toLowerCase();
+  const isPdf = fileType === "pdf";
+  const isPptx = fileType === "pptx";
 
   return (
     <div ref={viewerRef} className="flex flex-col min-h-screen">

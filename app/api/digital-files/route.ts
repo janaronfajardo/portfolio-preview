@@ -14,6 +14,7 @@ export async function GET() {
         return {
           id: r.public_id,
           title: ctx.title || "Untitled",
+          fileType: ctx.file_type || "pdf",
           date: r.created_at.split("T")[0],
           fileUrl: r.secure_url,
         };

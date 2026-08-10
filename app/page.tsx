@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   let featured: Assignment[] = [];
   let recentDocs: Assignment[] = [];
-  let recentFiles: { id: string; title: string; date: string; fileUrl: string }[] = [];
+  let recentFiles: { id: string; title: string; date: string; fileUrl: string; fileType: string }[] = [];
 
   try {
     const resources = await listDocuments();
@@ -42,6 +42,7 @@ export default async function HomePage() {
         return {
           id: r.public_id,
           title: ctx.title || "Untitled",
+          fileType: ctx.file_type || "pdf",
           date: r.created_at.split("T")[0],
           fileUrl: r.secure_url,
         };

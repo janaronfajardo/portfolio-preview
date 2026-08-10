@@ -112,6 +112,7 @@ export async function uploadDigitalFile(
   filename: string,
   title: string
 ) {
+  const ext = filename.toLowerCase().match(/\.(\w+)$/)?.[1] || "pdf";
   const publicId = `digitalfile_${Date.now()}-${Math.random()
     .toString(36)
     .slice(2, 8)}`;
@@ -122,7 +123,7 @@ export async function uploadDigitalFile(
         {
           public_id: publicId,
           resource_type: "raw",
-          context: `title=${title}`,
+          context: `title=${title}|file_type=${ext}`,
         },
         (err, res) => {
           if (err) reject(err);
