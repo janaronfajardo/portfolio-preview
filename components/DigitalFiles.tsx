@@ -88,18 +88,49 @@ export function DigitalFiles() {
     setErrorMsg("");
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("title", title);
+      const ext = file.name.toLowerCase().match(/\.(\w+)$/)?.[1] || "pdf";
 
-      const res = await fetch("/api/digital-files/upload", {
+      // Step 1: Get signed upload params from our API
+      const signRes = await fetch("/api/digital-files/sign", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          fileName: file.name,
+          fileSize: file.size,
+          fileType: ext,
+        }),
       });
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({ error: `Upload failed (HTTP ${res.status})` }));
-        throw new Error(data.error || `Upload failed (HTTP ${res.status})`);
+      if (!signRes.ok) {
+        const data = await signRes.json().catch(() => ({ error: `Prepare failed (HTTP ${signRes.status})` }));
+        throw new Error(data.error || `Prepare failed (HTTP ${signRes.status})`);
+      }
+
+      const { signature, timestamp, publicId, context, cloudName, apiKey } =
+        await signRes.json();
+
+      // Step 2: Upload directly to Cloudinary (bypasses Vercel body size limit)
+      const cloudForm = new FormData();
+      cloudForm.append("file", file);
+      cloudForm.append("api_key", apiKey);
+      cloudForm.append("timestamp", String(timestamp));
+      cloudForm.append("signature", signature);
+      cloudForm.append("public_id", publicId);
+      cloudForm.append("resource_type", "raw");
+      cloudForm.append("context", context);
+
+      const uploadRes = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/raw/upload`,
+        {
+          method: "POST",
+          body: cloudForm,
+        }
+      );
+
+      if (!uploadRes.ok) {
+        const data = await uploadRes.json().catch(() => ({ error: { message: `Cloudinary upload failed (HTTP ${uploadRes.status})` } }));
+        throw new Error(data.error?.message || `Cloudinary upload failed (HTTP ${uploadRes.status})`);
       }
 
       setStatus("success");
