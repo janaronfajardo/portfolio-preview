@@ -37,6 +37,7 @@ export function DigitalFiles() {
   const [files, setFiles] = useState<DigitalFile[]>([]);
   const [loading, setLoading] = useState(true);
   const [viewing, setViewing] = useState<DigitalFile | null>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const fetchFiles = useCallback(() => {
@@ -86,6 +87,7 @@ export function DigitalFiles() {
 
     setStatus("uploading");
     setErrorMsg("");
+    setUploadProgress(0);
 
     try {
       const ext = file.name.toLowerCase().match(/\.(\w+)$/)?.[1] || "pdf";
@@ -107,10 +109,12 @@ export function DigitalFiles() {
         throw new Error(data.error || `Prepare failed (HTTP ${signRes.status})`);
       }
 
-      const { signature, timestamp, publicId, context, cloudName, apiKey } =
+      const { signature, timestamp, publicId, cloudName, apiKey } =
         await signRes.json();
 
-      // Step 2: Upload directly to Cloudinary (bypasses Vercel body size limit)
+      // Step 2: Upload directly to Cloudinary with progress tracking
+      const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/raw/upload`;
+
       const cloudForm = new FormData();
       cloudForm.append("file", file);
       cloudForm.append("api_key", apiKey);
@@ -118,28 +122,51 @@ export function DigitalFiles() {
       cloudForm.append("signature", signature);
       cloudForm.append("public_id", publicId);
       cloudForm.append("resource_type", "raw");
-      cloudForm.append("context", context);
 
-      const uploadRes = await fetch(
-        `https://api.cloudinary.com/v1_1/${cloudName}/raw/upload`,
-        {
-          method: "POST",
-          body: cloudForm,
-        }
-      );
+      const uploadResult = await new Promise<{ secure_url: string }>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", uploadUrl);
 
-      if (!uploadRes.ok) {
-        const data = await uploadRes.json().catch(() => ({ error: { message: `Cloudinary upload failed (HTTP ${uploadRes.status})` } }));
-        throw new Error(data.error?.message || `Cloudinary upload failed (HTTP ${uploadRes.status})`);
-      }
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable) {
+            setUploadProgress(Math.round((e.loaded / e.total) * 100));
+          }
+        };
+
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve(JSON.parse(xhr.responseText));
+          } else {
+            try {
+              const data = JSON.parse(xhr.responseText);
+              reject(new Error(data.error?.message || `Upload failed (HTTP ${xhr.status})`));
+            } catch {
+              reject(new Error(`Upload failed (HTTP ${xhr.status})`));
+            }
+          }
+        };
+
+        xhr.onerror = () => reject(new Error("Network error during upload"));
+        xhr.send(cloudForm);
+      });
+
+      // Step 3: Update context (title, file_type) via admin API
+      setUploadProgress(100);
+      await fetch("/api/digital-files/update-context", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ publicId, title, fileType: ext }),
+      });
 
       setStatus("success");
+      setUploadProgress(0);
       setTitle("");
       setFile(null);
       fetchFiles();
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : "Upload failed");
       setStatus("error");
+      setUploadProgress(0);
     }
   };
 
@@ -299,6 +326,26 @@ export function DigitalFiles() {
             <p className="font-mono text-sm font-bold">
               Upload successful! Your file is now available below.
             </p>
+          </div>
+        )}
+
+        {/* Progress bar */}
+        {status === "uploading" && uploadProgress > 0 && (
+          <div className="brutal-border bg-paper dark:bg-ink p-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="font-mono text-xs font-bold uppercase text-black dark:text-white">
+                Uploading...
+              </span>
+              <span className="font-mono text-xs font-bold tabular-nums text-black dark:text-white">
+                {uploadProgress}%
+              </span>
+            </div>
+            <div className="w-full h-3 brutal-border bg-paper-dark dark:bg-ink-light overflow-hidden">
+              <div
+                className="h-full bg-accent transition-all duration-200 ease-out"
+                style={{ width: `${uploadProgress}%` }}
+              />
+            </div>
           </div>
         )}
 

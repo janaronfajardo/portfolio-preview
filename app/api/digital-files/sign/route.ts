@@ -54,15 +54,11 @@ export async function POST(req: NextRequest) {
       .slice(2, 8)}`;
 
     const timestamp = Math.round(Date.now() / 1000);
-    const folder = "";
-    const context = `title=${title}|file_type=${fileType || ext.slice(1)}`;
 
     const signature = cloudinary.utils.api_sign_request(
       {
         timestamp,
         public_id: publicId,
-        resource_type: "raw",
-        context,
       },
       process.env.CLOUDINARY_API_SECRET as string
     );
@@ -71,7 +67,6 @@ export async function POST(req: NextRequest) {
       signature,
       timestamp,
       publicId,
-      context,
       cloudName: process.env.CLOUDINARY_CLOUD_NAME,
       apiKey: process.env.CLOUDINARY_API_KEY,
     });
