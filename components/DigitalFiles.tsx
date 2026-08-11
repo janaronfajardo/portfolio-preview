@@ -109,11 +109,11 @@ export function DigitalFiles() {
         throw new Error(data.error || `Prepare failed (HTTP ${signRes.status})`);
       }
 
-      const { signature, timestamp, publicId, cloudName, apiKey } =
+      const { signature, timestamp, publicId, resourceType, cloudName, apiKey } =
         await signRes.json();
 
       // Step 2: Upload directly to Cloudinary with progress tracking
-      const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/raw/upload`;
+      const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`;
 
       const cloudForm = new FormData();
       cloudForm.append("file", file);
@@ -121,7 +121,6 @@ export function DigitalFiles() {
       cloudForm.append("timestamp", String(timestamp));
       cloudForm.append("signature", signature);
       cloudForm.append("public_id", publicId);
-      cloudForm.append("resource_type", "raw");
 
       const uploadResult = await new Promise<{ secure_url: string }>((resolve, reject) => {
         const xhr = new XMLHttpRequest();
@@ -155,7 +154,7 @@ export function DigitalFiles() {
       await fetch("/api/digital-files/update-context", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ publicId, title, fileType: ext }),
+        body: JSON.stringify({ publicId, title, fileType: ext, resourceType }),
       });
 
       setStatus("success");
@@ -305,7 +304,7 @@ export function DigitalFiles() {
                   Drop your file here
                 </p>
                 <p className="font-mono text-xs text-black/60 dark:text-white/60 mt-1">
-                  or click to browse — PDF or PPTX, max 50MB
+                  or click to browse — PDF or PPTX, max 40MB PDF / 10MB PPTX
                 </p>
               </div>
             </div>

@@ -86,16 +86,26 @@ export async function uploadDocument(
 }
 
 export async function listDigitalFiles() {
-  const result = await cloudinary.api.resources({
-    type: "upload",
-    resource_type: "raw",
-    prefix: "digitalfile_",
-    context: true,
-    tags: true,
-    max_results: 100,
-  });
+  const [rawResult, imageResult] = await Promise.all([
+    cloudinary.api.resources({
+      type: "upload",
+      resource_type: "raw",
+      prefix: "digitalfile_",
+      context: true,
+      tags: true,
+      max_results: 100,
+    }),
+    cloudinary.api.resources({
+      type: "upload",
+      resource_type: "image",
+      prefix: "digitalfile_",
+      context: true,
+      tags: true,
+      max_results: 100,
+    }),
+  ]);
 
-  return result.resources as CloudinaryResource[];
+  return [...rawResult.resources, ...imageResult.resources] as CloudinaryResource[];
 }
 
 export async function getDigitalFile(publicId: string) {

@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   try {
-    const { publicId, title, fileType } = await req.json();
+    const { publicId, title, fileType, resourceType } = await req.json();
 
     if (!publicId || !title) {
       return NextResponse.json(
@@ -14,10 +14,19 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    await cloudinary.api.update(publicId, {
-      resource_type: "raw",
-      context: `title=${title}|file_type=${fileType || "pdf"}`,
-    });
+    const rType = resourceType || "raw";
+    try {
+      await cloudinary.api.update(publicId, {
+        resource_type: rType,
+        context: `title=${title}|file_type=${fileType || "pdf"}`,
+      });
+    } catch {
+      const fallback = rType === "raw" ? "image" : "raw";
+      await cloudinary.api.update(publicId, {
+        resource_type: fallback,
+        context: `title=${title}|file_type=${fileType || "pdf"}`,
+      });
+    }
 
     return NextResponse.json({ success: true });
   } catch (err) {

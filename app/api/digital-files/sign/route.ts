@@ -26,9 +26,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (fileSize && fileSize > 50 * 1024 * 1024) {
+    const isPdf = ext === ".pdf";
+    const maxSize = isPdf ? 40 * 1024 * 1024 : 10 * 1024 * 1024;
+    if (fileSize && fileSize > maxSize) {
       return NextResponse.json(
-        { error: "File too large. Maximum size is 50MB." },
+        { error: `File too large. Maximum is ${isPdf ? "40MB" : "10MB"} for ${ext.replace(".", "").toUpperCase()} files on Cloudinary free plan.` },
         { status: 400 }
       );
     }
@@ -41,9 +43,15 @@ export async function POST(req: NextRequest) {
         return (ctx.title || "").toLowerCase() === title.toLowerCase();
       });
       if (duplicate) {
-        await cloudinary.uploader.destroy(duplicate.public_id, {
-          resource_type: "raw",
-        });
+        try {
+          await cloudinary.uploader.destroy(duplicate.public_id, {
+            resource_type: "raw",
+          });
+        } catch {
+          await cloudinary.uploader.destroy(duplicate.public_id, {
+            resource_type: "image",
+          });
+        }
       }
     } catch (err) {
       console.error("Failed to check duplicates:", err);
@@ -67,6 +75,7 @@ export async function POST(req: NextRequest) {
       signature,
       timestamp,
       publicId,
+      resourceType: isPdf ? "image" : "raw",
       cloudName: process.env.CLOUDINARY_CLOUD_NAME,
       apiKey: process.env.CLOUDINARY_API_KEY,
     });

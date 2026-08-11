@@ -14,9 +14,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const result = await cloudinary.uploader.destroy(publicId, {
+    let result = await cloudinary.uploader.destroy(publicId, {
       resource_type: "raw",
     });
+
+    if (result.result !== "ok") {
+      result = await cloudinary.uploader.destroy(publicId, {
+        resource_type: "image",
+      });
+    }
 
     if (result.result !== "ok") {
       return NextResponse.json(
