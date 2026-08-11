@@ -122,7 +122,7 @@ export function DigitalFiles() {
       cloudForm.append("signature", signature);
       cloudForm.append("public_id", publicId);
 
-      const uploadResult = await new Promise<{ secure_url: string }>((resolve, reject) => {
+      const uploadResult = await new Promise<{ secure_url: string; public_id: string }>((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open("POST", uploadUrl);
 
@@ -150,11 +150,12 @@ export function DigitalFiles() {
       });
 
       // Step 3: Update context (title, file_type) via admin API
+      // Use the public_id returned by Cloudinary (may differ for image resource type)
       setUploadProgress(100);
       const ctxRes = await fetch("/api/digital-files/update-context", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ publicId, title, fileType: ext, resourceType }),
+        body: JSON.stringify({ publicId: uploadResult.public_id, title, fileType: ext, resourceType }),
       });
       if (!ctxRes.ok) {
         const ctxData = await ctxRes.json().catch(() => ({ error: "Failed to set title" }));
