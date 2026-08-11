@@ -67,6 +67,8 @@ export function DigitalFiles() {
       return;
     }
     setFile(f);
+    const baseName = f.name.replace(/\.\w+$/, "").replace(/[-_]+/g, " ").trim();
+    setTitle(baseName);
     setStatus("idle");
     setErrorMsg("");
   }, []);
