@@ -15,17 +15,29 @@ export async function POST(req: NextRequest) {
     }
 
     const rType = resourceType || "raw";
-    try {
-      await cloudinary.api.update(publicId, {
-        resource_type: rType,
-        context: `title=${title}|file_type=${fileType || "pdf"}`,
-      });
-    } catch {
-      const fallback = rType === "raw" ? "image" : "raw";
-      await cloudinary.api.update(publicId, {
-        resource_type: fallback,
-        context: `title=${title}|file_type=${fileType || "pdf"}`,
-      });
+    const contextStr = `title=${title}|file_type=${fileType || "pdf"}`;
+    console.log("Updating context for", publicId, "resource_type:", rType, "context:", contextStr);
+
+    let updated = false;
+    for (const rt of [rType, rType === "raw" ? "image" : "raw"]) {
+      try {
+        const result = await cloudinary.api.update(publicId, {
+          resource_type: rt,
+          context: contextStr,
+        });
+        console.log("Context update result:", JSON.stringify(result.context));
+        updated = true;
+        break;
+      } catch (err) {
+        console.error(`Context update failed with resource_type=${rt}:`, err);
+      }
+    }
+
+    if (!updated) {
+      return NextResponse.json(
+        { error: "Failed to update context" },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ success: true });

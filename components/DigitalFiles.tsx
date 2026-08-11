@@ -151,11 +151,15 @@ export function DigitalFiles() {
 
       // Step 3: Update context (title, file_type) via admin API
       setUploadProgress(100);
-      await fetch("/api/digital-files/update-context", {
+      const ctxRes = await fetch("/api/digital-files/update-context", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ publicId, title, fileType: ext, resourceType }),
       });
+      if (!ctxRes.ok) {
+        const ctxData = await ctxRes.json().catch(() => ({ error: "Failed to set title" }));
+        console.error("Update context failed:", ctxData);
+      }
 
       setStatus("success");
       setUploadProgress(0);
