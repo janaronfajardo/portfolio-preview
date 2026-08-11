@@ -98,8 +98,8 @@ export function DigitalFiles() {
       });
 
       if (!res.ok) {
-        const data = await res.json().catch(() => ({ error: "Upload failed" }));
-        throw new Error(data.error || "Upload failed");
+        const data = await res.json().catch(() => ({ error: `Upload failed (HTTP ${res.status})` }));
+        throw new Error(data.error || `Upload failed (HTTP ${res.status})`);
       }
 
       setStatus("success");

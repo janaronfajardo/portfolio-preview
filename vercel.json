@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "app/api/digital-files/upload/route.ts": {
+      "maxDuration": 60
+    },
+    "app/api/upload/route.ts": {
+      "maxDuration": 60
+    }
+  }
+}
